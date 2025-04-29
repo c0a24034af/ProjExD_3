@@ -24,6 +24,7 @@ def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
         tate = False
     return yoko, tate
 
+
 class Score:
         """
         スコアを表示し、ビームと爆弾が当たった時にスコアを加算する関数
@@ -32,13 +33,15 @@ class Score:
             self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
             self.color = (0, 0, 255)
             self.score = 0
-            self.img = self.fonto.render(f"Score: {self.score}", True, self.color)
+            self.img = self.fonto.render(f"スコア: {self.score}", True, self.color)
             self.rct = self.img.get_rect()
             self.rct.center = (100, HEIGHT - 50)
     
         def update(self, screen: pg.Surface):
-            self.img = self.fonto.render(f"Score: {self.score}", 0, self.color)
+            self.img = self.fonto.render(f"スコア: {self.score}", 0, self.color)
             screen.blit(self.img, self.rct)
+
+
 class Bird:
     """
     ゲームキャラクター（こうかとん）に関するクラス
@@ -175,7 +178,6 @@ def main():
                 beams.append(Beam(bird))      
         screen.blit(bg_img, [0, 0])
         
-        # if bomb is not None:
         for bomb in bombs:
             if bird.rct.colliderect(bomb.rct):
                 # ゲームオーバー時に，こうかとん画像を切り替え，1秒間表示させる
@@ -187,7 +189,6 @@ def main():
                 time.sleep(1)
                 return
         
-        # if bomb is not None:
         for j, bomb in enumerate(bombs):
             for i, beam in enumerate(beams):
                 if beam is not None:
@@ -196,6 +197,7 @@ def main():
                         bombs[j] = None  # 爆弾を消す
                         score.score += 1
                         bird.change_img(6, screen)  # よろこびエフェクト
+
         bombs = [bomb for bomb in bombs if bomb is not None] # 撃ち落とされてない爆弾だけのリストにする
         beams = [beam for beam in beams if beam is not None] # 残ったビームのみのリストを作る
         beams = [beam for beam in beams if check_bound(beam.rct) == (True, True)] # 範囲外のビームをリストから消す
@@ -205,9 +207,12 @@ def main():
         for beam in beams:
             if beam is not None:
                 beam.update(screen)
+
         for bomb in bombs:
             bomb.update(screen)
+
         score.update(screen)
+
         pg.display.update()
         tmr += 1
         clock.tick(50)

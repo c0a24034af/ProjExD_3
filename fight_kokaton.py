@@ -69,6 +69,7 @@ class Bird:
         """
         こうかとん画像Surfaceを生成する
         引数 xy：こうかとん画像の初期位置座標タプル
+        こうかとんの位置を決定する
         """
         self.img = __class__.imgs[(+5, 0)]
         self.rct: pg.Rect = self.img.get_rect()
